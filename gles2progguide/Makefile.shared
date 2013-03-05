@@ -1,0 +1,10 @@
+
+INCLUDES =  \
+	-I$(top_srcdir) \
+	-I$(top_srcdir)/glesut \
+	-I$(top_builddir)/glesut \
+	$(NULL)
+LD_ADD = \
+	$(top_builddir)/glesut/libglesut.la \
+	$(NULL)
+

@@ -4,3 +4,4 @@
 *.lo
 *.a
 *.la
+Makefile.in
