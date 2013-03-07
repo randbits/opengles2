@@ -6,5 +6,6 @@ INCLUDES =  \
 	$(NULL)
 LD_ADD = \
 	$(top_builddir)/glesut/libglesut.la \
+	-lm
 	$(NULL)
 

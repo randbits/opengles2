@@ -37,6 +37,7 @@ AC_CONFIG_FILES([
 Makefile
 glesut/Makefile
 ch02/Makefile
+ch08/Makefile
 ])
 
 AC_OUTPUT

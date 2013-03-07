@@ -20,4 +20,5 @@ libglesut_la_LIBADD = \
 	@X11_LIBS@ \
 	@EGL_LIBS@ \
 	@GLESV2_LIBS@ \
+	-lm        \
 	$(NULL)
