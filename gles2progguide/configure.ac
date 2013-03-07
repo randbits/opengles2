@@ -38,6 +38,7 @@ Makefile
 glesut/Makefile
 ch02/Makefile
 ch08/Makefile
+ch09/Makefile
 ])
 
 AC_OUTPUT
