@@ -34,23 +34,24 @@ static GLuint program_object;
 static void draw_geometry ();
 static int init_pipeline ();
 
-int main ( int argc, char *argv[] )
+int 
+main (int argc, char** argv)
 {
     // 1. X stuff
     //1.1 X display
-    g_xdisplay = XOpenDisplay(NULL);
+    g_xdisplay = XOpenDisplay (NULL);
     if (g_xdisplay == NULL)
     {
         return EGL_FALSE;
     }
-    g_xroot = DefaultRootWindow(g_xdisplay);
+    g_xroot = DefaultRootWindow (g_xdisplay);
     //1.2 X window
     XSetWindowAttributes swa;
     swa.event_mask = ExposureMask | PointerMotionMask | KeyPressMask;
-    g_xwindow = XCreateWindow(g_xdisplay, g_xroot, 0, 0, g_xwindow_width, g_xwindow_height, 0,
+    g_xwindow = XCreateWindow (g_xdisplay, g_xroot, 0, 0, g_xwindow_width, g_xwindow_height, 0,
 			      CopyFromParent, InputOutput, CopyFromParent, CWEventMask,
                               &swa);
-    XSetWindowAttributes  xattr;
+    XSetWindowAttributes xattr;
     xattr.override_redirect = 0;
     XChangeWindowAttributes (g_xdisplay, g_xwindow, CWOverrideRedirect, &xattr);
     XWMHints hints;
@@ -87,7 +88,7 @@ int main ( int argc, char *argv[] )
     {
 	return EGL_FALSE;
     }
-    if (!eglChooseConfig (g_egldisplay, attrib_list, &g_eglconfig, 1, &num_configs) )
+    if (!eglChooseConfig (g_egldisplay, attrib_list, &g_eglconfig, 1, &num_configs))
     {
 	return EGL_FALSE;
     }
@@ -136,7 +137,7 @@ int main ( int argc, char *argv[] )
 		break;
 	}
 	// we must call eglSwapBuffers to show the back buffer.
-	eglSwapBuffers(g_egldisplay, g_eglsurface);
+	eglSwapBuffers (g_egldisplay, g_eglsurface);
    }
 }
 
@@ -145,7 +146,7 @@ load_shader (GLenum type, const char* shader_src)
 {
     GLuint shader;
 
-    shader = glCreateShader ( type );
+    shader = glCreateShader (type);
     if (shader == 0)
 	return 0;
     glShaderSource (shader, 1, &shader_src, NULL);
@@ -155,14 +156,14 @@ load_shader (GLenum type, const char* shader_src)
     glGetShaderiv (shader, GL_COMPILE_STATUS, &compiled);
     if (!compiled) 
     {
-	GLint infoLen = 0;
-	glGetShaderiv (shader, GL_INFO_LOG_LENGTH, &infoLen);
-	if (infoLen > 1)
+	GLint info_len = 0;
+	glGetShaderiv (shader, GL_INFO_LOG_LENGTH, &info_len);
+	if (info_len > 1)
 	{
-	    char* infoLog = malloc (sizeof(char) * infoLen);
-	    glGetShaderInfoLog (shader, infoLen, NULL, infoLog);
-	    fprintf (stderr, "Error compiling shader:\n%s\n", infoLog);            
-	    free ( infoLog );
+	    char* info_log = malloc (sizeof(char) * info_len);
+	    glGetShaderInfoLog (shader, info_len, NULL, info_log);
+	    fprintf (stderr, "Error compiling shader:\n%s\n", info_log);            
+	    free (info_log);
 	}
 	glDeleteShader (shader);
 	return 0;
@@ -194,44 +195,44 @@ init_pipeline ()
     glAttachShader (program_object, vertex_shader);
     glAttachShader (program_object, fragment_shader);
 
-    glBindAttribLocation (program_object, 0, "vPosition" );
+    glBindAttribLocation (program_object, 0, "vPosition");
     glLinkProgram (program_object);
 
     GLint linked;
     glGetProgramiv (program_object, GL_LINK_STATUS, &linked);
     if (!linked) 
     {
-	GLint infoLen = 0;
-	glGetProgramiv (program_object, GL_INFO_LOG_LENGTH, &infoLen);
-	if (infoLen > 1)
+	GLint info_len = 0;
+	glGetProgramiv (program_object, GL_INFO_LOG_LENGTH, &info_len);
+	if (info_len > 1)
 	{
-	    char* infoLog = malloc (sizeof(char) * infoLen);
-	    glGetProgramInfoLog (program_object, infoLen, NULL, infoLog);
-	    fprintf (stderr, "Error linking program:\n%s\n", infoLog);            
-            free ( infoLog );
+	    char* info_log = malloc (sizeof(char) * info_len);
+	    glGetProgramInfoLog (program_object, info_len, NULL, info_log);
+	    fprintf (stderr, "Error linking program:\n%s\n", info_log);            
+            free (info_log);
 	}
 	glDeleteProgram (program_object);
 	return GL_FALSE;
     }
-    glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
+    glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
     return GL_TRUE;
 }
 
 static void 
 draw_geometry ()
 {
-    GLfloat vVertices[] = {
+    GLfloat vertices[] = {
 	0.0f,  0.5f, 0.0f, 
 	-0.5f, -0.5f, 0.0f,
 	0.5f, -0.5f, 0.0f 
     };
     glViewport (0, 0, g_xwindow_width, g_xwindow_height);
-    glClear ( GL_COLOR_BUFFER_BIT );
+    glClear (GL_COLOR_BUFFER_BIT);
 
     glUseProgram (program_object);
     
-    glVertexAttribPointer ( 0, 3, GL_FLOAT, GL_FALSE, 0, vVertices );
-    glEnableVertexAttribArray ( 0 );
+    glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+    glEnableVertexAttribArray (0);
     
-    glDrawArrays ( GL_TRIANGLES, 0, 3 );
+    glDrawArrays (GL_TRIANGLES, 0, 3);
 }
